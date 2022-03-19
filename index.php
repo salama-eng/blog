@@ -5,11 +5,24 @@
 	License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <?php
+session_start();
 require "DbClass.php";
 // pass web-site url
 $site_url  = urlencode('http://localhost/blog/index.php');
 // post title
 $site_title  = "posts";
+
+if(isset($_GET['action']))
+{
+	if($_GET['action']=='logout')
+	{
+			unset($_SESSION['email']);
+				unset($_SESSION['email']);
+	}
+
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -45,14 +58,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="top-bar_sub_w3layouts container-fluid">
 			<div class="row">
 				<div class="col-md-4 logo text-left">
-					<a class="navbar-brand" href="index.html">
+					<a class="navbar-brand" href="index.php">
 						<i class="fab fa-linode"></i> Weblog</a>
 				</div>
 				<div class="col-md-4 top-forms text-center mt-lg-3 mt-md-1 mt-0">
 					<span>Welcome Back!</span>
 					<span class="mx-lg-4 mx-md-2  mx-1">
-						<a href="login.html">
-							<i class="fas fa-lock"></i> Sign In</a>
+					
+<?php
+			if (isset($_SESSION['email'])){
+        ?>
+						<a href="login.php?action=logout">
+						<i class="fas fa-lock"></i> logout</a>
+    <?php
+			}
+			else
+			{
+				?>
+				<a href="index.php"><i class="fas fa-lock"></i> Sign In</a>
+	<?php
+			}
+
+?>
+			
+						
 					</span>
 					<span>
 						<a href="register.html">

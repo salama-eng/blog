@@ -4,7 +4,38 @@
 	License: Creative Commons Attribution 3.0 Unported
 	License URL: http://creativecommons.org/licenses/by/3.0/
 -->
+<?php
+session_start();
+require "DbClass.php";
+// pass web-site url
+$site_url  = urlencode('http://localhost/blog/index.php');
+// post title
+$site_title  = "posts";
+if(isset($_GET['action']))
+{
+	if($_GET['action']=='logout')
+	{
+			unset($_SESSION['email']);
+	unset($_SESSION['password']);
+	}
 
+}
+
+if(isset($_POST['submit']))
+{
+	$email=$_POST['email'];
+	$password=$_POST['password'];
+if($db_obj->select('users')->where('email',$email)->and('password',$password)->runQuery())	
+{
+	$_SESSION["email"]=$email;
+	$_SESSION["password"]=$password;
+	echo '<script>window.location="dash.php"</script>';
+}
+else{
+  echo '<script>alert(" Sorry !! username or password is wrong !" )</script>';
+}
+}
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -42,17 +73,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<a class="navbar-brand" href="index.html">
 						<i class="fab fa-linode"></i> Weblog</a>
 				</div>
-				<div class="col-md-4 top-forms text-center mt-lg-3 mt-md-1 mt-0">
-					<span>Welcome Back!</span>
-					<span class="mx-lg-4 mx-md-2  mx-1">
-						<a href="login.html">
-							<i class="fas fa-lock"></i> Sign In</a>
-					</span>
-					<span>
-						<a href="register.html">
-							<i class="far fa-user"></i> Register</a>
-					</span>
-				</div>
+			
 				<div class="col-md-4 log-icons text-right">
 
 					<ul class="social_list1 mt-3">
@@ -95,7 +116,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="index.html">Home
+							<a class="nav-link" href="index.php">Home
 								<span class="sr-only">(current)</span>
 							</a>
 						</li>
@@ -109,11 +130,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								<a class="dropdown-item" href="#"></a>
-								<a class="dropdown-item" href="blog1.html">Standard Blog</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="blog2.html">2 Column Blog</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="blog3.html">3 Column Blog</a>
+								<a class="dropdown-item" href="index.php">All categories</a>
+
+									<?php
+$result =$db_obj->select("departments")->runQuery();
+
+foreach($result as $row)
+{			?>
+ 
+
+<a class="dropdown-item" href="blog2.php?id=<?=$row->id?>"><?=$row->title?></a>
+<?php
+}
+				?>		
 
 							</div>
 						</li>
@@ -143,7 +172,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">
-			<a href="index.html">Home</a>
+			<a href="index.php">Home</a>
 		</li>
 		<li class="breadcrumb-item active">Signin</li>
 	</ol>
@@ -157,18 +186,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<form action="#" method="post">
 							<div class="form-group">
 							  <label for="exampleInputEmail1 mb-2">Email address</label>
-							  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" required="">
+							  <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" required="">
 							  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 							</div>
 							<div class="form-group">
 							  <label for="exampleInputPassword1 mb-2">Password</label>
-							  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="" required="">
+							  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="" name="password" required="">
 							</div>
 							<div class="form-check mb-2">
 							  <input type="checkbox" class="form-check-input" id="exampleCheck1">
 							  <label class="form-check-label" for="exampleCheck1">Check me out</label>
 							</div>
-							<button type="submit" class="btn btn-primary submit mb-4">Sign In</button>
+							<button type="submit" class="btn btn-primary submit mb-4" name="submit">Sign In</button>
 							<p><a href="register.html"> Don't have an account?</a></p>
 						  </form>
 		</div>

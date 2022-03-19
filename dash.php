@@ -1,6 +1,9 @@
 
 <?php
+session_start();
+
 require "DbClass.php";
+
 
 if(isset($_GET['action']))
 {
@@ -63,12 +66,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="col-md-4 top-forms text-center mt-lg-3 mt-md-1 mt-0">
 					<span>Welcome Back!</span>
 					<span class="mx-lg-4 mx-md-2  mx-1">
-						<a href="login.html">
-							<i class="fas fa-lock"></i> Sign In</a>
-					</span>
-					<span>
-						<a href="register.html">
-							<i class="far fa-user"></i> Register</a>
+										
+<?php
+			if (isset($_SESSION['email'])){
+        ?>
+							<a href="login.php?action=logout"><i class="fas fa-lock"></i> logout</a>
+    <?php
+			}
+			else
+			{
+				?>
+		<a href="login.php">	<i class="fas fa-lock"></i> Sign In</a>
+	<?php
+			}
+
+?>
 					</span>
 				</div>
 				<div class="col-md-4 log-icons text-right">

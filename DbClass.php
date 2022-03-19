@@ -67,6 +67,12 @@ function runQuery()
    
     return $this;
    }
+   function And($column,$value)
+   {
+    $this->final_query.=" And $column = '$value'";
+   
+    return $this;
+   }
 
 
    function orderby($column,$typeOfOrder=null)
