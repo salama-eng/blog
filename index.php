@@ -75,7 +75,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			else
 			{
 				?>
-				<a href="index.php"><i class="fas fa-lock"></i> Sign In</a>
+				<a href="login.php"><i class="fas fa-lock"></i> Sign In</a>
 	<?php
 			}
 

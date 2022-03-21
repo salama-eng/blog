@@ -10,7 +10,7 @@ if(isset($_GET['action']))
 	$id=$_GET['id'];
 	
 
-	if($db_obj->deleteById("posts",$id)->runQuery())
+	if(!$db_obj->deleteById("posts",$id)->runQuery())
 	{
 		$_SESSION['message'] = "You have clicked on button successfully";
 		echo "<script>alert('You have successfully delete the data');</script>";
